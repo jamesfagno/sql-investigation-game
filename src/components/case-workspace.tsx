@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, ChevronRight, CircleHelp, Clock3, Database, Lightbulb, LockKeyhole, Play, RotateCcw, Table2, Trophy, XCircle } from "lucide-react";
 import { useMemo, useState } from "react";
@@ -133,13 +134,21 @@ export function CaseWorkspace({ gameCase }: { gameCase: GameCase }) {
         </section>
 
         <aside className="intel-panel">
+          <div className="hints-block">
+            <div className="hints-heading"><span className="panel-label">FAREJO DE PISTAS</span><small>{hintCount}/3 reveladas</small></div>
+            <div className={hintCount ? "mascot-tip has-clue" : "mascot-tip"} key={hintCount} aria-live="polite">
+              <Image src="/images/farejo-mascot.png" width={210} height={140} alt="Farejo, o dachshund investigador do Rastro SQL" priority />
+              <div>
+                <span>FAREJO</span>
+                <strong>{hintCount ? "Encontrei um rastro!" : "Posso farejar uma pista."}</strong>
+                <p>{hintCount ? gameCase.hints[hintCount - 1] : "Se a investigação travar, peça minha ajuda."}</p>
+              </div>
+            </div>
+            {gameCase.hints.slice(0, Math.max(0, hintCount - 1)).map((hint, index) => <div className="hint-item" key={hint}><span>{index + 1}</span><p>{hint}</p></div>)}
+            {hintCount < 3 ? <button className="hint-button" onClick={() => recordHint(gameCase.id)}><Lightbulb size={19} /><span><strong>Revelar dica {hintCount + 1}</strong><small>Custa 10 XP da recompensa</small></span></button> : <div className="all-hints"><Lightbulb size={15} /> Farejo encontrou todas as pistas.</div>}
+          </div>
           <span className="panel-label">BANCO DE EVIDÊNCIAS</span>
           <SchemaPanel tables={gameCase.tables} />
-          <div className="hints-block">
-            <div><span className="panel-label">SUPORTE TÁTICO</span><small>{hintCount}/3 dicas reveladas</small></div>
-            {gameCase.hints.slice(0, hintCount).map((hint, index) => <div className="hint-item" key={hint}><span>{index + 1}</span><p>{hint}</p></div>)}
-            {hintCount < 3 ? <button className="hint-button" onClick={() => recordHint(gameCase.id)}><Lightbulb size={16} /> Revelar dica {hintCount + 1}<small>-10 XP simbólicos</small></button> : <div className="all-hints"><Lightbulb size={15} /> Todas as dicas foram abertas.</div>}
-          </div>
         </aside>
       </div>
 
