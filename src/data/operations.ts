@@ -1,0 +1,88 @@
+import type { Operation } from "@/lib/types";
+
+export const OPERATIONS: Operation[] = [
+  {
+    id: "primeiro-rastro",
+    number: 1,
+    title: "Operação Primeiro Rastro",
+    shortTitle: "Primeiro Rastro",
+    description: "Aprenda a abrir um arquivo e escolher exatamente quais evidências devem aparecer.",
+    accent: "#d7ff64",
+    docsUrl: "https://www.postgresql.org/docs/current/tutorial-select.html",
+    skills: ["SELECT", "FROM", "colunas"],
+  },
+  {
+    id: "filtro-vermelho",
+    number: 2,
+    title: "Operação Filtro Vermelho",
+    shortTitle: "Filtro Vermelho",
+    description: "Separe pistas relevantes usando condições precisas.",
+    accent: "#ff7657",
+    docsUrl: "https://www.postgresql.org/docs/current/queries-table-expressions.html#QUERIES-WHERE",
+    skills: ["WHERE", "comparações", "booleanos"],
+  },
+  {
+    id: "ordem-de-busca",
+    number: 3,
+    title: "Operação Ordem de Busca",
+    shortTitle: "Ordem de Busca",
+    description: "Priorize suspeitos e limite relatórios extensos.",
+    accent: "#f2c46d",
+    docsUrl: "https://www.postgresql.org/docs/current/queries-order.html",
+    skills: ["ORDER BY", "ASC / DESC", "LIMIT"],
+  },
+  {
+    id: "sinais-cruzados",
+    number: 4,
+    title: "Operação Sinais Cruzados",
+    shortTitle: "Sinais Cruzados",
+    description: "Combine condições e encontre padrões escondidos em texto.",
+    accent: "#8be0d1",
+    docsUrl: "https://www.postgresql.org/docs/current/functions-matching.html",
+    skills: ["AND / OR", "IN", "LIKE"],
+  },
+  {
+    id: "balanco-forense",
+    number: 5,
+    title: "Operação Balanço Forense",
+    shortTitle: "Balanço Forense",
+    description: "Resuma grandes volumes de evidências em números decisivos.",
+    accent: "#ae91ff",
+    docsUrl: "https://www.postgresql.org/docs/current/tutorial-agg.html",
+    skills: ["COUNT", "SUM", "AVG", "MAX"],
+  },
+  {
+    id: "nucleos-ocultos",
+    number: 6,
+    title: "Operação Núcleos Ocultos",
+    shortTitle: "Núcleos Ocultos",
+    description: "Agrupe ocorrências para revelar padrões coletivos.",
+    accent: "#ff9fc7",
+    docsUrl: "https://www.postgresql.org/docs/current/queries-table-expressions.html#QUERIES-GROUP",
+    skills: ["GROUP BY", "HAVING", "agregações"],
+  },
+  {
+    id: "elos-da-rede",
+    number: 7,
+    title: "Operação Elos da Rede",
+    shortTitle: "Elos da Rede",
+    description: "Conecte arquivos separados por meio de identificadores em comum.",
+    accent: "#75b8ff",
+    docsUrl: "https://www.postgresql.org/docs/current/tutorial-join.html",
+    skills: ["JOIN", "ON", "aliases"],
+  },
+  {
+    id: "camara-profunda",
+    number: 8,
+    title: "Operação Câmara Profunda",
+    shortTitle: "Câmara Profunda",
+    description: "Use consultas dentro de consultas para encerrar a investigação.",
+    accent: "#ffcf4a",
+    docsUrl: "https://www.postgresql.org/docs/current/functions-subquery.html",
+    skills: ["subconsultas", "IN", "comparações"],
+  },
+];
+
+export const getOperation = (id: string) =>
+  OPERATIONS.find((operation) => operation.id === id) ?? OPERATIONS[0];
+
