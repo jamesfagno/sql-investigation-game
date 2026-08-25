@@ -28,6 +28,14 @@ describe("catálogo de casos", () => {
     }
     expect(failures).toEqual([]);
   });
+
+  it("mantém ao menos uma evidência em cada solução oficial", () => {
+    const emptyCases = CASES
+      .filter((gameCase) => executeQuery(gameCase, gameCase.solution).rows.length === 0)
+      .map((gameCase) => gameCase.code);
+
+    expect(emptyCases).toEqual([]);
+  });
 });
 
 describe("segurança do laboratório", () => {
@@ -43,5 +51,19 @@ describe("segurança do laboratório", () => {
     expect(() => validateReadOnlyQuery("SELECT * FROM agentes; SELECT * FROM registros;"))
       .toThrow("Execute uma consulta por vez.");
   });
-});
 
+  it("não interpreta palavras bloqueadas ou ponto e vírgula dentro de textos", () => {
+    expect(validateReadOnlyQuery("SELECT 'DELETE; -- apenas texto' AS anotacao;"))
+      .toContain("DELETE");
+  });
+
+  it("aceita comentários sem confundi-los com o conteúdo da consulta", () => {
+    expect(validateReadOnlyQuery("/* auditoria */ SELECT nome FROM agentes -- leitura\n;"))
+      .toContain("SELECT");
+  });
+
+  it("bloqueia comandos escondidos depois de comentários", () => {
+    expect(() => validateReadOnlyQuery("SELECT nome FROM agentes; -- outra instrução\nDELETE FROM agentes"))
+      .toThrow(SqlSafetyError);
+  });
+});

@@ -85,11 +85,16 @@ export type Badge = {
 };
 
 export function getBadges(progress: PlayerProgress): Badge[] {
+  const completed = new Set(progress.completedCases);
+  const completedOperation = Array.from({ length: 8 }, (_, operationIndex) =>
+    Array.from({ length: 25 }, (_, caseIndex) => operationIndex * 25 + caseIndex + 1),
+  ).some((caseIds) => caseIds.every((caseId) => completed.has(caseId)));
+
   return [
     { id: "primeira-pista", name: "Primeira pista", description: "Resolva seu primeiro caso.", unlocked: progress.completedCases.length >= 1 },
     { id: "sem-ajuda", name: "Olho clínico", description: "Resolva 5 casos sem revelar dicas.", unlocked: progress.solvedWithoutHints.length >= 5 },
     { id: "sequencia", name: "Plantão contínuo", description: "Mantenha uma sequência de 3 dias.", unlocked: progress.streak >= 3 },
-    { id: "operacao", name: "Arquivo fechado", description: "Conclua uma operação inteira.", unlocked: progress.completedCases.length >= 25 },
+    { id: "operacao", name: "Arquivo fechado", description: "Conclua uma operação inteira.", unlocked: completedOperation },
     { id: "centenario", name: "Centenário", description: "Resolva 100 casos.", unlocked: progress.completedCases.length >= 100 },
     { id: "todos", name: "Rastro completo", description: "Solucione os 200 casos gratuitos.", unlocked: progress.completedCases.length >= 200 },
   ];

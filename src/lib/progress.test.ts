@@ -39,4 +39,12 @@ describe("progressão do jogador", () => {
     expect(badges.find((badge) => badge.id === "primeira-pista")?.unlocked).toBe(true);
     expect(badges.find((badge) => badge.id === "sem-ajuda")?.unlocked).toBe(true);
   });
+
+  it("só concede Arquivo fechado ao concluir os 25 casos da mesma operação", () => {
+    const scattered = { ...DEFAULT_PROGRESS, completedCases: Array.from({ length: 25 }, (_, index) => index * 2 + 1) };
+    const completeOperation = { ...DEFAULT_PROGRESS, completedCases: Array.from({ length: 25 }, (_, index) => index + 26) };
+
+    expect(getBadges(scattered).find((badge) => badge.id === "operacao")?.unlocked).toBe(false);
+    expect(getBadges(completeOperation).find((badge) => badge.id === "operacao")?.unlocked).toBe(true);
+  });
 });

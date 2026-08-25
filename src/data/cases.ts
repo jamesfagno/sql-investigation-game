@@ -97,8 +97,9 @@ function challengeFor(operationIndex: number, variant: number, tables: CaseTable
   const records = tables[1].rows;
   const district = String(agents[variant % agents.length].distrito);
   const role = String(agents[(variant + 2) % agents.length].cargo);
-  const location = String(records[variant % records.length].local);
-  const event = String(records[(variant + 1) % records.length].evento);
+  const matchedRecord = records[variant % records.length];
+  const location = String(matchedRecord.local);
+  const event = String(matchedRecord.evento);
 
   const challenges: Array<Array<() => CaseChallenge>> = [
     [

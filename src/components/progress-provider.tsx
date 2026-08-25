@@ -38,7 +38,11 @@ function subscribe(listener: () => void) {
 
 function saveSnapshot(next: PlayerProgress) {
   clientSnapshot = next;
-  window.localStorage.setItem(PROGRESS_KEY, JSON.stringify(next));
+  try {
+    window.localStorage.setItem(PROGRESS_KEY, JSON.stringify(next));
+  } catch {
+    // Mantém o jogo funcional durante a sessão quando o armazenamento está indisponível.
+  }
   listeners.forEach((listener) => listener());
 }
 
